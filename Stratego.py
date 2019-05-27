@@ -1,7 +1,6 @@
 from graphics import *
 import math
-
-
+from collections import deque
 class Piece:
 	def __init__(self, text: Text, team: str):
 		self.text = text
@@ -36,7 +35,7 @@ tileArray = []
 x = 1
 
 def drawGrid():
-	board = Image(Point(250,250), "board (2).png")
+	board = Image(Point(250,250), "board (3).png")
 	board.draw(win)
 	for i in range(size_of_grid):
 		for j in range(size_of_grid):
@@ -49,15 +48,25 @@ def drawGrid():
 def getTile(point):
 	x = math.floor(point.x / length)
 	y = math.floor(point.y / length)
-	print((x, y))
 	for tile in tileArray:
 		if x == tile.position.x and y == tile.position.y:
 			return tile
 	return None
 
 drawGrid()
-piece = Text(Point(24.5,24.5), "3")
+
 piece.draw(win)
+highlighted = []
 while (True):
 	coor = win.getMouse()
-	getTile(coor).rectangle.setOutline("Yellow")
+	if(len(highlighted) == 0):
+		return_tile = getTile(coor)
+		return_tile.rectangle.setOutline("Yellow")
+		highlighted.append(return_tile)
+	else:
+		return_tile = getTile(coor)
+		return_tile.rectangle.setOutline("Yellow")
+		highlighted.append(return_tile)
+		first_tile = highlighted.pop(0)
+		first_tile.rectangle.setOutline("black")
+		
