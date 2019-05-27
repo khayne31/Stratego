@@ -33,6 +33,7 @@ length = int(sides/size_of_grid)
 win = GraphWin("Stratego", sides, sides)
 
 tileArray = []
+x = 1
 
 def drawGrid():
 	board = Image(Point(250,250), "board.png")
