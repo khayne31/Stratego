@@ -36,7 +36,7 @@ tileArray = []
 x = 1
 
 def drawGrid():
-	board = Image(Point(250,250), "board.png")
+	board = Image(Point(250,250), "board (2).png")
 	board.draw(win)
 	for i in range(size_of_grid):
 		for j in range(size_of_grid):
