@@ -36,7 +36,7 @@ tileArray = []
 x = 1
 
 def drawGrid():
-	board = Image(Point(250,250), "board (2).png")
+	board = Image(Point(250,250), "images/board (3).png")
 	board.draw(win)
 	for i in range(size_of_grid):
 		for j in range(size_of_grid):
@@ -56,7 +56,7 @@ def getTile(point):
 	return None
 
 drawGrid()
-piece = Text(Point(24.5,24.5), "3")
+piece = Image(Point(25,25), "images/MajorResize.png")
 piece.draw(win)
 while (True):
 	coor = win.getMouse()
