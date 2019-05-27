@@ -3,12 +3,22 @@ import math
 from collections import deque
 pieceValue = ["Flag", "Bomb", "Spy", "Scout", "Miner", "Sergeant", "Lieutenant", "Captain", "Major", "Colonel", "General", "Marshall"]
 class Piece:
-	def __init__(self, text: Text, team: str):
-		self.text = text
+	def __init__(self, name: Text, team: str, img_path: str, window, position: Point):
+		self.text = name
 		self.team = team
+		self.img_path = img_path
+		self.position = position
+		self.img = None
+		self.window = window
+
+
+	def draw_piece(self):
+		self.img = Image(self.position, self.img_path)
+		self.img.draw(self.window)
+
 
 class Tile:
-	def	__init__(self, position: Point, length: int, window, tile_type: str = "reg"):
+	def	__init__(self, position: Point, length: int, window, peice: Piece = None, tile_type: str = "reg"):
 
 		self.position = position
 		self.type = tile_type
@@ -16,6 +26,7 @@ class Tile:
 		self.length = length
 		self.window = window
 		self.colour = "blue" if self.type == "water" else "green"
+		self.peice = peice
 
 
 	def draw_square(self):
@@ -46,7 +57,7 @@ def drawGrid():
 			g.draw_square()
 			tileArray.append(g)
 
-def getTile(point):
+def getTile(point) -> Tile:
 	x = math.floor(point.x / length)
 	y = math.floor(point.y / length)
 	for tile in tileArray:
@@ -59,12 +70,16 @@ count = 0
 for i in range(10):
 	for j in range(10):
 		if i >= 0 and i < 2:
-			piece = Image(Point(j * 50 + 25, i * 50 + 25), "images/" + pieceValue[count] + "Blue.png")
-			piece.draw(win)
+			piece = Piece(pieceValue[count], "blue", "images/" + pieceValue[count] + "Blue.png", win, Point(j * 50 + 25, i * 50 + 25))
+			piece.draw_piece()
+			#piece = Image(Point(j * 50 + 25, i * 50 + 25), "images/" + pieceValue[count] + "Blue.png")
+			#piece.draw(win)
 			count = (count + 1) % 12
 		elif i >= 8 and i < 10:
-			piece = Image(Point(j * 50 + 25, i * 50 + 25), "images/" + pieceValue[count] + "Red.png")
-			piece.draw(win)
+			piece = Piece(pieceValue[count], "red", "images/" + pieceValue[count] + "Red.png", win, Point(j * 50 + 25, i * 50 + 25))
+			piece.draw_piece()
+			#piece = Image(Point(j * 50 + 25, i * 50 + 25), "images/" + pieceValue[count] + "Red.png")
+			#piece.draw(win)
 			count = (count + 1) % 12
 		else:
 			count = 0
