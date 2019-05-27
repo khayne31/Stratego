@@ -21,7 +21,7 @@ class Tile:
 		top_left_x = self.position.x * self.length
 		top_left_y = self.position.y * self.length
 		self.rectangle = Rectangle(Point(top_left_x , top_left_y ), Point(top_left_x + self.length - 1, top_left_y + self.length - 1))
-		self.rectangle.setFill(self.colour)
+		#self.rectangle.setFill(self.colour)
 		self.rectangle.draw(self.window)
 		print(Point(.5,.5))
 sides = 500
@@ -32,6 +32,8 @@ win = GraphWin("Stratego", sides, sides)
 tileArray = []
 
 def drawGrid():
+	board = Image(Point(250,250), "board.png")
+	board.draw(win)
 	for i in range(size_of_grid):
 		for j in range(size_of_grid):
 			#square = Rectangle(Point(i*length, j*length), Point(i*length + length, j*length+length))
@@ -41,8 +43,8 @@ def drawGrid():
 			tileArray.append(g)
 
 def getTile(point):
-	x = math.floor(point.x / 50)
-	y = math.floor(point.y / 50)
+	x = math.floor(point.x / length)
+	y = math.floor(point.y / length)
 	print((x, y))
 	for tile in tileArray:
 		if x == tile.position.x and y == tile.position.y:
