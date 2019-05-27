@@ -33,7 +33,7 @@ def drawGrid():
 		for j in range(size_of_grid):
 			#square = Rectangle(Point(i*length, j*length), Point(i*length + length, j*length+length))
 			#square.draw(win)
-			g = Tile( Point(i,j), length, win, tile_type = "reg", colour = "blue" if ((j == 4 or j == 5) and (i == 2 or i == 3 or i == 6 or i == 7)) else "green")
+			g = Tile( Point(i,j), length, win, tile_type = "water" if ((j == 4 or j == 5) and (i == 2 or i == 3 or i == 6 or i == 7)) else "reg", colour = "blue" if ((j == 4 or j == 5) and (i == 2 or i == 3 or i == 6 or i == 7)) else "green")
 			g.draw_square()
 
 drawGrid()			
