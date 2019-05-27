@@ -1,6 +1,7 @@
 from graphics import *
 import math
 from collections import deque
+pieceValue = ["Flag", "Bomb", "Spy", "Scout", "Miner", "Sergeant", "Lieutenant", "Captain", "Major", "Colonel", "General", "Marshall"]
 class Piece:
 	def __init__(self, text: Text, team: str):
 		self.text = text
@@ -54,8 +55,20 @@ def getTile(point):
 	return None
 
 drawGrid()
-piece = Image(Point(25,25), "images/FlagBlue.png")
-piece.draw(win)
+count = 0
+for i in range(10):
+	for j in range(10):
+		if i >= 0 and i < 2:
+			piece = Image(Point(j * 50 + 25, i * 50 + 25), "images/" + pieceValue[count] + "Blue.png")
+			piece.draw(win)
+			count = (count + 1) % 12
+		elif i >= 8 and i < 10:
+			piece = Image(Point(j * 50 + 25, i * 50 + 25), "images/" + pieceValue[count] + "Red.png")
+			piece.draw(win)
+			count = (count + 1) % 12
+		else:
+			count = 0
+
 highlighted = []
 while (True):
 	coor = win.getMouse()
