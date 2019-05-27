@@ -36,5 +36,6 @@ def drawGrid():
 			g = Tile( Point(i,j), length, win, tile_type = "water" if ((j == 4 or j == 5) and (i == 2 or i == 3 or i == 6 or i == 7)) else "reg")
 			g.draw_square()
 
-drawGrid()			
-win.getMouse() 	 	
+drawGrid()
+while (True):
+	win.getMouse()
