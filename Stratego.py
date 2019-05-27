@@ -17,10 +17,13 @@ class Tile:
 		self.window = window
 		self.colour = "blue" if self.type == "water" else "green"
 
+
 	def draw_square(self):
 		top_left_x = self.position.x * self.length
 		top_left_y = self.position.y * self.length
 		self.rectangle = Rectangle(Point(top_left_x , top_left_y ), Point(top_left_x + self.length - 1, top_left_y + self.length - 1))
+		#self.rectangle.setFill(self.colour)
+		#self.rectangle.setOutline("blue" if self.type == "water" else "black")
 		#self.rectangle.setFill(self.colour)
 		self.rectangle.draw(self.window)
 		print(Point(.5,.5))
