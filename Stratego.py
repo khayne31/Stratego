@@ -54,7 +54,7 @@ def getTile(point):
 	return None
 
 drawGrid()
-piece = Image(Point(25,25), "images/MajorResize.png")
+piece = Image(Point(25,25), "images/FlagBlue.png")
 piece.draw(win)
 highlighted = []
 while (True):
