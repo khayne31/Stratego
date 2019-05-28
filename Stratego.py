@@ -25,6 +25,7 @@ class Piece:
 		self.position = position
 		self.img = None
 		self.window = window
+		self.tile = None
 
 
 	def draw_piece(self):
@@ -60,6 +61,17 @@ class Piece:
 		self.tile = getTile(self.position)
 		self.img.move(-x,0)
 		self.draw_piece()
+
+	def move_to_tile(self, tile):
+		self.img.undraw()
+		self.position.x = tile.position.x * tile.length + tile.length/2
+		self.position.y = tile.position.y * tile.length + tile.length/2
+		tile.piece = self
+		if self.tile != None:
+			self.tile.piece = None
+		self.tile = tile
+		self.draw_piece()
+
 
 
 
@@ -124,24 +136,29 @@ for i in range(10):
 			count = 0
 
 highlighted = []
+selected_piece = None
 while (True):
 	coor = win.getMouse()
+	
 	if(len(highlighted) == 0):
 		return_tile = getTile(coor)
 		return_tile.rectangle.setOutline("Yellow")
 		highlighted.append(return_tile)
-		current_peice = return_tile.piece
-		current_peice.move_down(2)
-		return_tile.piece = None
+		#current_peice = return_tile.piece
+		#current_peice.move_down(2)
+		#return_tile.piece = None
+		selected_piece = return_tile.piece
 	else:
 		return_tile = getTile(coor)
 		return_tile.rectangle.setOutline("Yellow")
 		highlighted.append(return_tile)
 		first_tile = highlighted.pop(0)
 		first_tile.rectangle.setOutline("black")
-		current_peice = return_tile.piece
-		current_peice.move_down(2)
-		return_tile.piece = None
+
+		selected_piece.move_to_tile(return_tile)
+		#current_peice = return_tile.piece
+		#current_peice.move_down(2)
+		#return_tile.piece = None
 		
 
 
