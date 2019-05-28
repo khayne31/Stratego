@@ -149,22 +149,16 @@ while (True):
 		#return_tile.piece = None
 		selected_piece = return_tile.piece
 	else:
+		return_tile = getTile(coor)
+		return_tile.rectangle.setOutline("Yellow" if selected_piece == None else "Blue")
+		highlighted.append(return_tile)
+		first_tile = highlighted.pop(0)
+		first_tile.rectangle.setOutline("black")
 		if selected_piece != None:
-			return_tile = getTile(coor)
-			return_tile.rectangle.setOutline("Blue")
-			highlighted.append(return_tile)
-			first_tile = highlighted.pop(0)
-			first_tile.rectangle.setOutline("black")
-
 			selected_piece.move_to_tile(return_tile)
 			highlighted.pop(0).rectangle.setOutline("black")
 			selected_piece = None
 		else:
-			return_tile = getTile(coor)
-			return_tile.rectangle.setOutline("Yellow")
-			highlighted.append(return_tile)
-			first_tile = highlighted.pop(0)
-			first_tile.rectangle.setOutline("black")
 			selected_piece = return_tile.piece
 
 		#current_peice = return_tile.piece
