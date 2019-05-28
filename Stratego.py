@@ -2,6 +2,21 @@ from graphics import *
 import math
 from collections import deque
 pieceValue = ["Flag", "Bomb", "Spy", "Scout", "Miner", "Sergeant", "Lieutenant", "Captain", "Major", "Colonel", "General", "Marshall"]
+sides = 500
+size_of_grid = 10
+length = int(sides/size_of_grid)
+win = GraphWin("Stratego", sides, sides)
+
+tileArray = []
+
+def getTile(point):
+	x = math.floor(point.x / length)
+	y = math.floor(point.y / length)
+	for tile in tileArray:
+		if x == tile.position.x and y == tile.position.y:
+			return tile
+	return None
+
 class Piece:
 	def __init__(self, name: Text, team: str, img_path: str, window, position: Point):
 		self.text = name
@@ -16,6 +31,37 @@ class Piece:
 		self.img = Image(self.position, self.img_path)
 		self.img.draw(self.window)
 
+	def move_up(self, x):
+		self.img.undraw()
+		self.position.y -=  x * length
+		self.tile = getTile(self.position)
+		self.img.move(0,-x)
+		self.draw_piece()
+
+	def move_down(self, x):
+		self.img.undraw()
+		self.position.y += x * length
+		self.tile = getTile(self.position)
+		self.img.move(0,x)
+		self.draw_piece()
+
+
+	def move_right(self, x):
+		self.img.undraw()
+		self.position.x += x * length
+		self.tile = getTile(self.position)
+		self.img.move(x,0)
+		self.draw_piece()
+
+
+	def move_left(self, x):
+		self.img.undraw()
+		self.position.x -= x * length
+		self.tile = getTile(self.position)
+		self.img.move(-x,0)
+		self.draw_piece()
+
+
 
 class Tile:
 	def	__init__(self, position: Point, length: int, window, peice: Piece = None, tile_type: str = "reg"):
@@ -27,6 +73,7 @@ class Tile:
 		self.window = window
 		self.colour = "blue" if self.type == "water" else "green"
 		self.peice = peice
+		self.selected = False;
 
 
 	def draw_square(self):
@@ -37,14 +84,8 @@ class Tile:
 		#self.rectangle.setOutline("blue" if self.type == "water" else "black")
 		#self.rectangle.setFill(self.colour)
 		self.rectangle.draw(self.window)
-		print(Point(.5,.5))
-sides = 500
-size_of_grid = 10
-length = int(sides/size_of_grid)
-win = GraphWin("Stratego", sides, sides)
 
-tileArray = []
-x = 1
+
 
 def drawGrid():
 	board = Image(Point(250,250), "images/board (3).png")
@@ -57,26 +98,24 @@ def drawGrid():
 			g.draw_square()
 			tileArray.append(g)
 
-def getTile(point) -> Tile:
-	x = math.floor(point.x / length)
-	y = math.floor(point.y / length)
-	for tile in tileArray:
-		if x == tile.position.x and y == tile.position.y:
-			return tile
-	return None
+
 
 drawGrid()
 count = 0
 for i in range(10):
 	for j in range(10):
 		if i >= 0 and i < 2:
-			piece = Piece(pieceValue[count], "blue", "images/" + pieceValue[count] + "Blue.png", win, Point(j * 50 + 25, i * 50 + 25))
+			piece = Piece(pieceValue[count], "blue", "images/" + pieceValue[count] + "Blue.png", win, Point(j * length + 25, i * length + 25))
+			current_tile = getTile(Point(j * length + 25, i * length + 25))
+			current_tile.piece = piece
 			piece.draw_piece()
 			#piece = Image(Point(j * 50 + 25, i * 50 + 25), "images/" + pieceValue[count] + "Blue.png")
 			#piece.draw(win)
 			count = (count + 1) % 12
 		elif i >= 8 and i < 10:
-			piece = Piece(pieceValue[count], "red", "images/" + pieceValue[count] + "Red.png", win, Point(j * 50 + 25, i * 50 + 25))
+			piece = Piece(pieceValue[count], "red", "images/" + pieceValue[count] + "Red.png", win, Point(j * length + 25, i * length + 25))
+			current_tile = getTile(Point(j * length + 25, i * length + 25))
+			current_tile.piece = piece
 			piece.draw_piece()
 			#piece = Image(Point(j * 50 + 25, i * 50 + 25), "images/" + pieceValue[count] + "Red.png")
 			#piece.draw(win)
@@ -91,10 +130,18 @@ while (True):
 		return_tile = getTile(coor)
 		return_tile.rectangle.setOutline("Yellow")
 		highlighted.append(return_tile)
+		current_peice = return_tile.piece
+		current_peice.move_down(2)
+		return_tile.piece = None
 	else:
 		return_tile = getTile(coor)
 		return_tile.rectangle.setOutline("Yellow")
 		highlighted.append(return_tile)
 		first_tile = highlighted.pop(0)
 		first_tile.rectangle.setOutline("black")
+		current_peice = return_tile.piece
+		current_peice.move_down(2)
+		return_tile.piece = None
+		
+
 
