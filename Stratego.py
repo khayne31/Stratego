@@ -76,7 +76,7 @@ class Piece:
 
 
 class Tile:
-	def	__init__(self, position: Point, length: int, window, peice: Piece = None, tile_type: str = "reg"):
+	def	__init__(self, position: Point, length: int, window, piece: Piece = None, tile_type: str = "reg"):
 
 		self.position = position
 		self.type = tile_type
@@ -84,7 +84,7 @@ class Tile:
 		self.length = length
 		self.window = window
 		self.colour = "blue" if self.type == "water" else "green"
-		self.peice = peice
+		self.piece = piece
 		self.selected = False;
 
 
@@ -149,13 +149,24 @@ while (True):
 		#return_tile.piece = None
 		selected_piece = return_tile.piece
 	else:
-		return_tile = getTile(coor)
-		return_tile.rectangle.setOutline("Yellow")
-		highlighted.append(return_tile)
-		first_tile = highlighted.pop(0)
-		first_tile.rectangle.setOutline("black")
+		if selected_piece != None:
+			return_tile = getTile(coor)
+			return_tile.rectangle.setOutline("Blue")
+			highlighted.append(return_tile)
+			first_tile = highlighted.pop(0)
+			first_tile.rectangle.setOutline("black")
 
-		selected_piece.move_to_tile(return_tile)
+			selected_piece.move_to_tile(return_tile)
+			highlighted.pop(0).rectangle.setOutline("black")
+			selected_piece = None
+		else:
+			return_tile = getTile(coor)
+			return_tile.rectangle.setOutline("Yellow")
+			highlighted.append(return_tile)
+			first_tile = highlighted.pop(0)
+			first_tile.rectangle.setOutline("black")
+			selected_piece = return_tile.piece
+
 		#current_peice = return_tile.piece
 		#current_peice.move_down(2)
 		#return_tile.piece = None
