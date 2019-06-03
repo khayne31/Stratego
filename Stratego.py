@@ -18,7 +18,7 @@ def getTile(point):
 	return None
 
 class Piece:
-	def __init__(self, name: Text, team: str, img_path: str, window, position: Point):
+	def __init__(self, name: str, team: str, img_path: str, window, position: Point):
 		self.text = name
 		self.team = team
 		self.img_path = img_path
@@ -26,6 +26,7 @@ class Piece:
 		self.img = None
 		self.window = window
 		self.tile = None
+		self.movable = False if self.text == "Flag" or self.text == "Bomb" else True;
 
 
 	def draw_piece(self):
@@ -63,14 +64,26 @@ class Piece:
 		self.draw_piece()
 
 	def move_to_tile(self, tile):
-		self.img.undraw()
-		self.position.x = tile.position.x * tile.length + tile.length/2
-		self.position.y = tile.position.y * tile.length + tile.length/2
-		tile.piece = self
-		if self.tile != None:
-			self.tile.piece = None
-		self.tile = tile
-		self.draw_piece()
+		if selected_piece.movable == True:
+			if tile.piece == None:
+				self.img.undraw()
+				self.position.x = tile.position.x * tile.length + tile.length/2
+				self.position.y = tile.position.y * tile.length + tile.length/2
+				tile.piece = self
+				if self.tile != None:
+					self.tile.piece = None
+				self.tile = tile
+				self.draw_piece()
+			elif tile.piece.team != self.team:
+				#Combat code Here
+				self.img.undraw()
+				self.position.x = tile.position.x * tile.length + tile.length/2
+				self.position.y = tile.position.y * tile.length + tile.length/2
+				tile.piece = self
+				if self.tile != None:
+					self.tile.piece = None
+				self.tile = tile
+				self.draw_piece()
 
 
 
@@ -139,7 +152,7 @@ highlighted = []
 selected_piece = None
 while (True):
 	coor = win.getMouse()
-	
+
 	if(len(highlighted) == 0):
 		return_tile = getTile(coor)
 		return_tile.rectangle.setOutline("Yellow")
@@ -164,6 +177,6 @@ while (True):
 		#current_peice = return_tile.piece
 		#current_peice.move_down(2)
 		#return_tile.piece = None
-		
+
 
 
