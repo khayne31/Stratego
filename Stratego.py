@@ -69,6 +69,8 @@ class Piece:
 				self.img.undraw()
 				self.position.x = tile.position.x * tile.length + tile.length/2
 				self.position.y = tile.position.y * tile.length + tile.length/2
+				if tile.piece != None:
+					tile.piece.img.undraw()
 				tile.piece = self
 				if self.tile != None:
 					self.tile.piece = None
@@ -79,6 +81,8 @@ class Piece:
 				self.img.undraw()
 				self.position.x = tile.position.x * tile.length + tile.length/2
 				self.position.y = tile.position.y * tile.length + tile.length/2
+				if tile.piece != None:
+					tile.piece.img.undraw()
 				tile.piece = self
 				if self.tile != None:
 					self.tile.piece = None
